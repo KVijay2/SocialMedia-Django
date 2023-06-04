@@ -1,10 +1,3 @@
-"""
-Django settings for social project.
-
-Generated using Django 4.1.5.
-
-"""
-
 import os
 from pathlib import Path
 
