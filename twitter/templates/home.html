@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+	<div class="container text-center">
+		<div class="row">
+			<div class="col-8">
+
+	<h1>Tweets!</h1>
+<br/>
+	{% for tweet in tweets %}
+		<div class="alert alert-dark" role="alert">
+<div class="container">
+	<div class="row">
+		<div class="col-1">
+			{% if tweet.user.profile.profile_image %}
+				<img src="{{ tweet.user.profile.profile_image.url }}" width=50 height=50 class="rounded-circle" alt="{{ profile.user.username }}">
+
+				{% else %}
+				<img src="{% static 'images/default_profile_pic.png' %}" width=50 height=50 class="rounded-circle" alt="{{ profile.user.username }}">	
+				{% endif %}
+		</div>
+
+		<div class="col-11">
+			{{ tweet.body }}<br/>
+			<small class="text-muted">
+				({{ tweet.created_at}}) By 
+				@{{ tweet.user.username }}
+				- {{ tweet.number_of_likes }} 
+
+				{% if user in tweet.likes.all %}
+					<a href="{% url 'tweet_like' tweet.id %}"><i class="fa-solid fa-heart" style="color:red"></i></a>
+				{% else %}
+					<a href="{% url 'tweet_like' tweet.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
+				{% endif %} -
+
+				&nbsp;&nbsp;
+					<a href="{% url 'tweet_share' tweet.id %}">
+						<i class="fa-solid fa-share" style="color:gray"></i>
+					</a>
+
+			</small>
+		</div><br/><br/>
+	
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+
+</div>
+
+<div class="col-4">
+	<br/><br/><br/>
+{% if form %}
+<form  method=POST>
+	{% csrf_token %}
+  {{ form.as_p }}
+
+  <button type="submit" class="btn btn-secondary">Post tweet!</button>
+</form>
+{% endif %}
+</div>
+
+{% endblock %}
