@@ -90,21 +90,25 @@
 
 <br/><br/>
 
-				<div class="card">
-  <h5 class="card-header">Follows</h5>
-  <div class="card-body">
+	<div class="card">
+		<h5 class="card-header">Follows</h5>
+		<div class="card-body">
+			<p class="card-text">
+				{% for follows in profile.follows.all %}
+					<a href="{% url 'profile' follows.user.id %}">@{{ follows }}</a>
+					<a href="{% url 'unfollow' follows.user.id %}">
+						<i class="fa fa-user-minus small" style="color:gray"></i>
+					</a>
+					<br/>
+				{% endfor %}
+			</p>
+		</div>
 
-    <p class="card-text">
-      {% for following in profile.follows.all %}
-				<a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
-				<a href="{% url 'unfollow' following.user.id %}">
-					<i class="fa fa-user-minus small" style="color:gray"></i>
-				</a>
-				<br/>
-			{% endfor %}
-    </p>
+		<div class="card-footer text-end">
+			<a href="{% url 'follows' profile.user.id %}"
+			class="btn btn-sm btn-outline-secondary">See All...</a>
+		</div>
 
-  </div>
 </div>			
 			<br/><br/>
 
@@ -113,9 +117,9 @@
 				<div class="card-body">
 					
 					<p class="card-text">
-						{% for following in profile.followed_by.all %}
-							<a href="{% url 'profile' following.user.id %}">@{{ following }}</a>&nbsp;&nbsp;
-								<a href="{% url 'follow' following.user.id %}">
+						{% for followings in profile.followed_by.all %}
+							<a href="{% url 'profile' followings.user.id %}">@{{ followings }}</a>&nbsp;&nbsp;
+								<a href="{% url 'follow' followings.user.id %}">
 									<i class="fa fa-user-plus small" style="color:gray"></i>
 								</a>						
 							<br/>
@@ -123,8 +127,8 @@
 					</p>
 
 				</div>
-				<div class="card-footer">
-					<a href="{% url 'followers' profile.user.id %}">See All...</a>
+				<div class="card-footer text-end">
+					<a href="{% url 'followers' profile.user.id %}" class="btn btn-sm btn-outline-secondary">See All...</a>
 				</div>
 			</div>
 			<br/>
