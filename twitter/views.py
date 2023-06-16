@@ -1,9 +1,10 @@
 from django.shortcuts import get_object_or_404, render,redirect
-from django.contrib import messages
-from .models import Profile,Tweet
-from .forms import ProfilePicForm, TweetForm, NameForm, SignUpForm
 from django.contrib.auth import logout,authenticate, login
 from django.contrib.auth.models import User
+from django.contrib import messages
+
+from .forms import ProfilePicForm, TweetForm, NameForm, SignUpForm
+from .models import Profile,Tweet
 
 def logout_view(request):
   logout(request)
@@ -190,3 +191,19 @@ def follow(request, pk):
 	else:
 		messages.success(request, ("You Must Be Logged In To View This Page..."))
 		return redirect('home')
+
+def delete_tweet(request, pk):
+	if request.user.is_authenticated:
+		tweet = get_object_or_404(Tweet, id=pk)
+		if request.user.username == tweet.user.username:
+			tweet.delete()
+			
+			messages.success(request, ("The tweet Has Been Deleted!"))
+			return redirect(request.META.get("HTTP_REFERER"))	
+		else:
+			messages.success(request, ("You Don't Own That tweet!!"))
+			return redirect('home')
+
+	else:
+		messages.success(request, ("Please Log In To Continue..."))
+		return redirect(request.META.get("HTTP_REFERER"))
