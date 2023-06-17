@@ -17,5 +17,5 @@ urlpatterns = [
     path('update_user/', views.update_user, name='update_user'),    
     path('tweet_like/<int:pk>', views.tweet_like, name="tweet_like"),
     path('tweet_share/<int:pk>', views.tweet_show, name="tweet_share"),
-    path('delete_meep/<int:pk>', views.delete_meep, name="delete_tweet"),    
+    path('delete_tweet/<int:pk>', views.delete_tweet, name="delete_tweet"),    
 ]
