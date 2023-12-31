@@ -1,0 +1,11 @@
+{
+  "builds":[{
+    "src":"social/wsgi.py",
+    "use":"@vercel/python",
+    "config":{"maxLambdaSize":"22mb","runtime":"python3.9"}
+  }],
+  "routes":[{
+    "src":"/(.*)",
+    "dest":"social/wsgi.py"
+  }]
+}
